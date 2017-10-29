@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.leaguechampions.R;
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
@@ -24,6 +23,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class ChampionsActivity extends AppCompatActivity implements ChampionsPresenter.ChampionsView {
 
@@ -43,19 +43,13 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champions);
         ButterKnife.bind(this);
+        AndroidInjection.inject(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champions_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_champions_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
         }
-
-        DaggerChampionsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .championsPresenterModule(new ChampionsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }

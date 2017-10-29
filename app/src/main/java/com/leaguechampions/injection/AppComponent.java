@@ -1,18 +1,32 @@
 package com.leaguechampions.injection;
 
-import android.content.SharedPreferences;
+import android.app.Application;
 
-import com.leaguechampions.data.remote.Api;
-import com.squareup.picasso.Picasso;
+import com.leaguechampions.LeagueChampions;
 
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
-@Component(modules = {AppModule.class, NetworkModule.class, DataModule.class})
+@Component(modules = {
+        AppModule.class,
+        NetworkModule.class,
+        DataModule.class,
+        ActivityBuilder.class,
+        AndroidSupportInjectionModule.class})
 public interface AppComponent {
-    Api provideApi();
-    Picasso providePicasso();
-    SharedPreferences provideSharedPreferences();
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
+        AppComponent build();
+    }
+
+    void inject(LeagueChampions app);
+
+    //    Picasso getPicasso();
 }

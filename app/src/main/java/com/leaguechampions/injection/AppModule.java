@@ -1,5 +1,6 @@
 package com.leaguechampions.injection;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,21 +17,15 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private final Context context;
-
-    public AppModule(Context context) {
-        this.context = context;
+    @Provides
+    @Singleton
+    Context provideContext(Application application) {
+        return application;
     }
 
     @Provides
     @Singleton
-    Context providesContext() {
-        return context;
-    }
-
-    @Provides
-    @Singleton
-    SharedPreferences providesSharedPreferences(Context context) {
+    SharedPreferences provideSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 

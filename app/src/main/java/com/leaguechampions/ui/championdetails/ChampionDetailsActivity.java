@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
 import com.leaguechampions.data.local.Const;
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
@@ -25,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 
 public class ChampionDetailsActivity extends AppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsView {
 
@@ -55,20 +55,14 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_details);
         ButterKnife.bind(this);
+        AndroidInjection.inject(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champion_details_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_champion_details_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.app_name);
         }
-
-        DaggerChampionDetailsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .championDetailsPresenterModule(new ChampionDetailsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }

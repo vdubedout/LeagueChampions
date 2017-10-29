@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.R;
 
 import javax.inject.Inject;
@@ -18,6 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import dagger.android.AndroidInjection;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsPresenter.SettingsView {
 
@@ -38,20 +38,14 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
+        AndroidInjection.inject(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_settings_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_settings_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.settings);
         }
-
-        DaggerSettingsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .settingsPresenterModule(new SettingsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }
