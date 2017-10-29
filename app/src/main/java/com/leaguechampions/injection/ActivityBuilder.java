@@ -14,12 +14,12 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {ChampionsActivityModule.class})
-    abstract ChampionsActivity contributesChampionsActivity();
+    abstract ChampionsActivity contributeChampionsActivity();
 
     @ContributesAndroidInjector(modules = {ChampionDetailsActivityModule.class})
-    abstract ChampionDetailsActivity contributesChampionDetailsActivity();
+    abstract ChampionDetailsActivity contributeChampionDetailsActivity();
 
     @ContributesAndroidInjector(modules = {SettingsActivityModule.class})
-    abstract SettingsActivity contributesSettingsActivity();
+    abstract SettingsActivity contributeSettingsActivity();
 }
 
